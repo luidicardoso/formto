@@ -10,7 +10,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/migrations:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U formto"]
+      test: ["CMD-SHELL", "pg_isready -U formto -d formto"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -26,6 +26,14 @@ services:
       DB_PORT: 5432
       DB_NAME: formto
       DB_USER: formto
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      DOMAIN: ${DOMAIN}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      FROM_EMAIL: ${FROM_EMAIL:-}
     depends_on:
       postgres:
         condition: service_healthy
@@ -34,7 +42,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-      start_period: 10s
+      start_period: 15s
 
   frontend:
     build:
