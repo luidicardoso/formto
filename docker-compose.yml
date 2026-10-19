@@ -2,7 +2,6 @@ services:
   postgres:
     image: postgres:16.4-alpine
     restart: unless-stopped
-    env_file: formto.env
     environment:
       POSTGRES_DB: formto
       POSTGRES_USER: formto
@@ -18,7 +17,6 @@ services:
   backend:
     build: ./backend
     restart: unless-stopped
-    env_file: formto.env
     environment:
       PORT: 3001
       HOST: 0.0.0.0
